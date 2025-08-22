@@ -29,7 +29,7 @@ parser.add_argument(
     "--mode",
     type=str,
     default="lora",  # Default to 'cuda:0'
-    help="Choose the device (e.g., 'lora', 'full', 'none')"
+    help="Choose the device (e.g., 'lora', 'full', 'none', 'full-no-contrast')"
 )
 parser.add_argument(
     "--batchsize",
@@ -84,25 +84,30 @@ inference_loader = get_loader(inference_list, inference_transform, batch_size=1,
 contract_loss_function = SimpleContrastiveLoss(margin=0.2)
 
 model = vit_classifier(6)
-if FTmode == 'full':
+# whether to load the base model
+if FTmode in ['full', 'full-no-contrast']:
     model.load_state_dict(torch.load('/home/xiangcen/PatientBiopsyDetect/models/model_weights_pirAgle_68.pth', map_location=device))
 
 if FTmode == 'lora':
     for param in model.parameters():
         param.requires_grad = False
     model = apply_lora(model, rank=4)
-
-
-
-loss_function  = FocalLoss(gamma=2)
-if FTmode == 'lora':
-    optimizer = AdamW([p for p in model.parameters() if p.requires_grad], lr=1e-6)
     
-if FTmode == 'full' or FTmode == 'none':
+# put the right parameters to optimizer 
+if FTmode == 'lora':
+    optimizer = AdamW([p for p in model.parameters() if p.requires_grad], lr=1e-4)
+elif FTmode in ['full' , 'none', 'full-no-contrast']:
     optimizer = AdamW(model.parameters(), lr=1e-4)
 
-
-
+# do contrast learning or not
+if FTmode == 'full-no-contrast':
+    with_contrast=False
+else:
+    with_contrast=True
+    
+    
+    
+loss_function  = FocalLoss(gamma=2)
 for e in range(11):
     loss = lora_finetune(
             model=model,
@@ -110,6 +115,7 @@ for e in range(11):
             train_optimizer=optimizer,
             train_loss=loss_function,
             contrast_loss=contract_loss_function,
+            with_contrast=with_contrast,
             device=device,
         )
 
