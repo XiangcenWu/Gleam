@@ -293,12 +293,12 @@ def train_net_contrast(
 
 
 
-promis_325_gleason_0_list = read_txt_to_list('/home/xiangcen/PatientBiopsyDetect/PROMIS_325_train_gleason/gleason_0.txt')
-promis_325_gleason_1_list = read_txt_to_list('/home/xiangcen/PatientBiopsyDetect/PROMIS_325_train_gleason/gleason_1.txt')
-promis_325_gleason_2_list = read_txt_to_list('/home/xiangcen/PatientBiopsyDetect/PROMIS_325_train_gleason/gleason_2.txt')
-promis_325_gleason_3_list = read_txt_to_list('/home/xiangcen/PatientBiopsyDetect/PROMIS_325_train_gleason/gleason_3.txt')
-promis_325_gleason_4_list = read_txt_to_list('/home/xiangcen/PatientBiopsyDetect/PROMIS_325_train_gleason/gleason_4.txt')
-promis_325_gleason_5_list = read_txt_to_list('/home/xiangcen/PatientBiopsyDetect/PROMIS_325_train_gleason/gleason_5.txt')
+promis_325_gleason_0_list = read_txt_to_list('./PROMIS_325_train_gleason/gleason_0.txt')
+promis_325_gleason_1_list = read_txt_to_list('./PROMIS_325_train_gleason/gleason_1.txt')
+promis_325_gleason_2_list = read_txt_to_list('./PROMIS_325_train_gleason/gleason_2.txt')
+promis_325_gleason_3_list = read_txt_to_list('./PROMIS_325_train_gleason/gleason_3.txt')
+promis_325_gleason_4_list = read_txt_to_list('./PROMIS_325_train_gleason/gleason_4.txt')
+promis_325_gleason_5_list = read_txt_to_list('./PROMIS_325_train_gleason/gleason_5.txt')
 promis_325_gleason_list_list = [
     promis_325_gleason_0_list+promis_325_gleason_1_list,
     promis_325_gleason_2_list+promis_325_gleason_3_list+promis_325_gleason_4_list+promis_325_gleason_5_list,

@@ -1,6 +1,6 @@
 import os
 from TrainInference import data_spilt, ReadH5Pkld, get_loader
-from TrainInference import train_net, inference_net, data_all, train_net_contrast, get_roc
+from TrainInference import train_net, data_all, train_net_contrast, get_roc
 from monai.transforms import *
 
 from torch.optim import AdamW
